@@ -1,5 +1,4 @@
 package com.makiia.modules.prices.dataproviders.jpa;
-
 import com.makiia.crosscutting.domain.model.EntyRecmaetarivalorDto;
 import com.makiia.crosscutting.exceptions.DataProvider;
 import com.makiia.crosscutting.exceptions.ExceptionBuilder;
@@ -13,7 +12,6 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.DataAccessException;
-
 import javax.persistence.PersistenceException;
 import java.util.ArrayList;
 import java.util.List;
@@ -107,53 +105,63 @@ public class JpaEntyRecmaetarivalorDataProviders implements IjpaEntyRecmaetariva
             EntyRecmaetarivalor entity = dtoToEntityTranslate.translate(dto);
             EntyRecmaetarivalor old = repository.findById(id).get();
 
-            old.setRec_secreg_retp(
-                    Objects.nonNull(dto.getRec_secreg_retp()) && !entity.getRec_secreg_retp().isEmpty()
-                            ? entity.getRec_secreg_retp()
-                            : old.getRec_secreg_retp());
-            old.setApj_nroreg_aphp(
-                    Objects.nonNull(entity.getApj_nroreg_aphp()) && !entity.getApj_nroreg_aphp().equals(0)
-                            ? entity.getApj_nroreg_aphp()
-                            : old.getApj_nroreg_aphp());
-            old.setRec_tipres_repe(
-                    Objects.nonNull(dto.getRec_tipres_repe()) && !entity.getRec_tipres_repe().isEmpty()
-                            ? entity.getRec_tipres_repe()
-                            : old.getRec_tipres_repe());
-            old.setRec_titulo_retp(
-                    Objects.nonNull(dto.getRec_titulo_retp()) && !entity.getRec_titulo_retp().isEmpty()
-                            ? entity.getRec_titulo_retp()
-                            : old.getRec_titulo_retp());
-            old.setRec_notmem_retp(
-                    Objects.nonNull(dto.getRec_notmem_retp()) && !entity.getRec_notmem_retp().isEmpty()
-                            ? entity.getRec_notmem_retp()
-                            : old.getRec_notmem_retp());
-            old.setRec_notdet_retp(
-                    Objects.nonNull(dto.getRec_notdet_retp()) && !entity.getRec_notdet_retp().isEmpty()
-                            ? entity.getRec_notdet_retp()
-                            : old.getRec_notdet_retp());
-            old.setRec_image1_retp(
-                    Objects.nonNull(dto.getRec_image1_retp()) && !entity.getRec_image1_retp().isEmpty()
-                            ? entity.getRec_image1_retp()
-                            : old.getRec_image1_retp());
-            old.setRec_image2_retp(
-                    Objects.nonNull(dto.getRec_image2_retp()) && !entity.getRec_image2_retp().isEmpty()
-                            ? entity.getRec_image2_retp()
-                            : old.getRec_image2_retp());
+            old.setRecSecregRetp(
+                    Objects.nonNull(dto.getRecSecregRetp()) && !entity.getRecSecregRetp().isEmpty()
+                            ? entity.getRecSecregRetp()
+                            : old.getRecSecregRetp());
+            old.setApjNroregAphp(
+                    Objects.nonNull(entity.getApjNroregAphp()) && !entity.getApjNroregAphp().equals(0)
+                            ? entity.getApjNroregAphp()
+                            : old.getApjNroregAphp());
+            old.setRecTipresRepe(
+                    Objects.nonNull(dto.getRecTipresRepe()) && !entity.getRecTipresRepe().isEmpty()
+                            ? entity.getRecTipresRepe()
+                            : old.getRecTipresRepe());
+            old.setRecTituloRetp(
+                    Objects.nonNull(dto.getRecTituloRetp()) && !entity.getRecTituloRetp().isEmpty()
+                            ? entity.getRecTituloRetp()
+                            : old.getRecTituloRetp());
+            old.setRecNotmemRetp(
+                    Objects.nonNull(dto.getRecNotmemRetp()) && !entity.getRecNotmemRetp().isEmpty()
+                            ? entity.getRecNotmemRetp()
+                            : old.getRecNotmemRetp());
+            old.setRecNotdetRetp(
+                    Objects.nonNull(dto.getRecNotdetRetp()) && !entity.getRecNotdetRetp().isEmpty()
+                            ? entity.getRecNotdetRetp()
+                            : old.getRecNotdetRetp());
+            old.setRecImage1Retp(
+                    Objects.nonNull(dto.getRecImage1Retp()) && !entity.getRecImage1Retp().isEmpty()
+                            ? entity.getRecImage1Retp()
+                            : old.getRecImage1Retp());
+            old.setRecImage2Retp(
+                    Objects.nonNull(dto.getRecImage2Retp()) && !entity.getRecImage2Retp().isEmpty()
+                            ? entity.getRecImage2Retp()
+                            : old.getRecImage2Retp());
 
-            old.setRec_image3_retp(
-                    Objects.nonNull(dto.getRec_image3_retp()) && !entity.getRec_image3_retp().isEmpty()
-                            ? entity.getRec_image3_retp()
-                            : old.getRec_image3_retp());
+            old.setRecImage3Retp(
+                    Objects.nonNull(dto.getRecImage3Retp()) && !entity.getRecImage3Retp().isEmpty()
+                            ? entity.getRecImage3Retp()
+                            : old.getRecImage3Retp());
 
-            old.setRec_ordvis_retp(
-                    Objects.nonNull(entity.getRec_ordvis_retp()) && !entity.getRec_ordvis_retp().equals(0)
-                            ? entity.getRec_ordvis_retp()
-                            : old.getRec_ordvis_retp());
+            old.setRecOrdvisRetp(
+                    Objects.nonNull(entity.getRecOrdvisRetp()) && !entity.getRecOrdvisRetp().equals(0)
+                            ? entity.getRecOrdvisRetp()
+                            : old.getRecOrdvisRetp());
 
-            old.setRec_tipmon_retm(
-                    Objects.nonNull(dto.getRec_tipmon_retm()) && !entity.getRec_tipmon_retm().isEmpty()
-                            ? entity.getRec_tipmon_retm()
-                            : old.getRec_tipmon_retm());
+            old.setRecTipmonRetm(
+                    Objects.nonNull(dto.getRecTipmonRetm()) && !entity.getRecTipmonRetm().isEmpty()
+                            ? entity.getRecTipmonRetm()
+                            : old.getRecTipmonRetm());
+
+            old.setRecPrecioRetp(
+                    Objects.nonNull(entity.getRecPrecioRetp()) && !entity.getRecPrecioRetp().equals(0)
+                            ? entity.getRecPrecioRetp()
+                            : old.getRecPrecioRetp());
+
+            old.setRecEstregRetp(
+                    Objects.nonNull(entity.getRecEstregRetp()) && !entity.getRecEstregRetp().equals(0)
+                            ? entity.getRecEstregRetp()
+                            : old.getRecEstregRetp());
 
             return saveResponseTranslate.translate(repository.save(old));
         } catch (PersistenceException | DataAccessException e) {

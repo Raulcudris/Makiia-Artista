@@ -6,7 +6,6 @@ import com.makiia.crosscutting.patterns.Translator;
 import com.makiia.crosscutting.persistence.entity.EntyRecmaetarivalor;
 import com.makiia.crosscutting.utils.GsonUtil;
 import org.springframework.stereotype.Component;
-
 @Component
 public class EntyRecmaetarivalorSaveResponseTranslate  implements Translator<EntyRecmaetarivalor, EntyRecmaetarivalorDto> {
     @Override
