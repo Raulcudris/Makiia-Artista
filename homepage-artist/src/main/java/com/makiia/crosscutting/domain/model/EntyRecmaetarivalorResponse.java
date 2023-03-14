@@ -11,10 +11,23 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class EntyRecmaetarivalorResponse {
-    private List<EntyRecmaetarivalorDto> content;
-    private int pageNo;
-    private int pageSize;
-    private long totalElements;
+
+    private int currentPage;
+    private int totalPageSize;
+    private long totalResults;
     private int totalPages;
-    private boolean last;
+    private boolean hasNextPage;
+    private boolean hasPreviousPage;
+    private String nextPageUrl;
+    private String previousPageUrl;
+    private List<EntyRecmaetarivalorDto> rspData;
+
+    //"currentPage": 1,
+    //"totalPageSize": 3,
+    //"totalResults": 3,
+    //"totalPages": 1,
+    //"hasNextPage": false,
+    //"hasPreviousPage": false,
+    //"nextPageUrl": "https://localhost:44354/api/EdtArtPrice",
+    //"previousPageUrl": "https://localhost:44354/api/EdtArtPrice"
 }

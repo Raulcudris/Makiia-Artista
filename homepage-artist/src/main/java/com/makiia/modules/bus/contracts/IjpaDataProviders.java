@@ -7,7 +7,7 @@ public interface  IjpaDataProviders<T> {
 
     List<T> getAll() throws EBusinessException;
 
-     EntyRecmaetarivalorResponse getAll (int page , int size) throws EBusinessException;
+    EntyRecmaetarivalorResponse getAll (int page , int size) throws EBusinessException;
 
     T get(String id) throws EBusinessException;
 

@@ -6,6 +6,7 @@ import com.makiia.crosscutting.domain.model.EntyRecmaetarivalorDto;
 import com.makiia.crosscutting.domain.model.EntyRecmaetarivalorResponse;
 import com.makiia.crosscutting.exceptions.Main.EBusinessException;
 import com.makiia.crosscutting.exceptions.MicroEventException;
+import com.makiia.crosscutting.persistence.entity.EntyRecmaetarivalor;
 import com.makiia.modules.prices.usecase.EntyRecmaetarivalorService;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.log4j.Log4j2;
@@ -23,8 +24,15 @@ import java.util.List;
 public class EntyRecmaetarivalorWebApi {
     @Autowired
     private EntyRecmaetarivalorService service;
-
     @GetMapping("getall")
+    @ApiOperation(httpMethod = ApiConstants.GET_HTTP, value = ApiConstants.GET_DESC, notes = "")
+    public ResponseEntity<List<EntyRecmaetarivalorDto>> getAll()
+            throws EBusinessException, MicroEventException {
+        return new ResponseEntity<>(service.getAll(), HttpStatus.OK);
+    }
+
+
+    @GetMapping
     @ApiOperation(httpMethod = ApiConstants.GET_HTTP, value = ApiConstants.GET_ALL_DESC, notes = "")
     public ResponseEntity<EntyRecmaetarivalorResponse> getAll( @RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
                                                                @RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize)

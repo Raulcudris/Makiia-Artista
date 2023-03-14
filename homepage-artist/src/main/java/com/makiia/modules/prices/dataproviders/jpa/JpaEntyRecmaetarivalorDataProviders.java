@@ -43,7 +43,6 @@ public class JpaEntyRecmaetarivalorDataProviders implements IjpaEntyRecmaetariva
     private Translator<EntyRecmaetarivalor, EntyRecmaetarivalorResponse> saveResponse;
 
 
-
     @Override
     public List<EntyRecmaetarivalorDto> getAll() throws EBusinessException {
         List<EntyRecmaetarivalorDto> dtos = new ArrayList<>();
@@ -67,7 +66,6 @@ public class JpaEntyRecmaetarivalorDataProviders implements IjpaEntyRecmaetariva
         }
     }
 
-
     @Override
     public EntyRecmaetarivalorResponse getAll(int page , int size) throws EBusinessException {
         try {
@@ -77,12 +75,11 @@ public class JpaEntyRecmaetarivalorDataProviders implements IjpaEntyRecmaetariva
             List<EntyRecmaetarivalorDto> content  = ListPage.stream().map(p ->mapToDto(p)).collect(Collectors.toList());
 
             EntyRecmaetarivalorResponse response = new EntyRecmaetarivalorResponse();
-            response.setContent(content);
-            response.setPageNo(ResponsePage.getNumber());
-            response.setPageSize(ResponsePage.getSize());
-            response.setTotalElements(ResponsePage.getTotalElements());
-            response.setTotalPages(response.getTotalPages());
-            response.setLast(response.isLast());
+            response.setCurrentPage(ResponsePage.getNumber());
+            response.setTotalPageSize(ResponsePage.getSize());
+            response.setTotalResults(ResponsePage.getTotalElements());
+            response.setTotalPages(ResponsePage.getTotalPages());
+            response.setRspData(content);
 
             return response;
 
@@ -256,7 +253,6 @@ public class JpaEntyRecmaetarivalorDataProviders implements IjpaEntyRecmaetariva
     private EntyRecmaetarivalor mapToEntity(EntyRecmaetarivalorDto entyRecmaetarivalorDto){
 
         EntyRecmaetarivalor entity = new EntyRecmaetarivalor();
-
         entity.setRecSecregRetp(entyRecmaetarivalorDto.getRecSecregRetp());
         entity.setApjNroregAphp(entyRecmaetarivalorDto.getApjNroregAphp());
         entity.setRecTipresRepe(entyRecmaetarivalorDto.getRecTipresRepe());
