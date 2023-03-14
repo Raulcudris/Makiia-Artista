@@ -1,5 +1,6 @@
 package com.makiia.modules.prices.dataproviders.jpa;
 import com.makiia.crosscutting.domain.model.EntyRecmaetarivalorDto;
+import com.makiia.crosscutting.domain.model.EntyRecmaetarivalorResponse;
 import com.makiia.crosscutting.exceptions.DataProvider;
 import com.makiia.crosscutting.exceptions.ExceptionBuilder;
 import com.makiia.crosscutting.exceptions.Main.EBusinessException;
@@ -12,10 +13,14 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.DataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import javax.persistence.PersistenceException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Log4j2
 @DataProvider
@@ -28,6 +33,17 @@ public class JpaEntyRecmaetarivalorDataProviders implements IjpaEntyRecmaetariva
     @Autowired
     @Qualifier("entyRecmaetarivalorDtoToEntityTranslate")
     private Translator<EntyRecmaetarivalorDto, EntyRecmaetarivalor> dtoToEntityTranslate;
+
+    @Autowired
+    @Qualifier("entyRecmaetarivalorResponseToEntityTranslate")
+    private Translator<EntyRecmaetarivalorResponse, EntyRecmaetarivalor> dtoToResponseTranslate;
+
+    @Autowired
+    @Qualifier("entyRecmaetarivalorResponseTranslate")
+    private Translator<EntyRecmaetarivalor, EntyRecmaetarivalorResponse> saveResponse;
+
+
+
     @Override
     public List<EntyRecmaetarivalorDto> getAll() throws EBusinessException {
         List<EntyRecmaetarivalorDto> dtos = new ArrayList<>();
@@ -50,6 +66,37 @@ public class JpaEntyRecmaetarivalorDataProviders implements IjpaEntyRecmaetariva
                     .buildBusinessException();
         }
     }
+
+
+    @Override
+    public EntyRecmaetarivalorResponse getAll(int page , int size) throws EBusinessException {
+        try {
+            Pageable pageable = PageRequest.of(page, size);
+            Page<EntyRecmaetarivalor> ResponsePage = repository.findAll(pageable);
+            List<EntyRecmaetarivalor> ListPage = ResponsePage.getContent();
+            List<EntyRecmaetarivalorDto> content  = ListPage.stream().map(p ->mapToDto(p)).collect(Collectors.toList());
+
+            EntyRecmaetarivalorResponse response = new EntyRecmaetarivalorResponse();
+            response.setContent(content);
+            response.setPageNo(ResponsePage.getNumber());
+            response.setPageSize(ResponsePage.getSize());
+            response.setTotalElements(ResponsePage.getTotalElements());
+            response.setTotalPages(response.getTotalPages());
+            response.setLast(response.isLast());
+
+            return response;
+
+
+        } catch (PersistenceException | DataAccessException e) {
+            throw ExceptionBuilder.builder()
+                    .withMessage(SearchMessages.SEARCH_ERROR_DESCRIPTION)
+                    .withCode(SearchMessages.SEARCH_ERROR_ID)
+                    .withParentException(e)
+                    .buildBusinessException();
+        }
+    }
+
+
 
     @Override
     public EntyRecmaetarivalorDto get(String id) throws EBusinessException {
@@ -186,5 +233,46 @@ public class JpaEntyRecmaetarivalorDataProviders implements IjpaEntyRecmaetariva
                     .buildBusinessException();
         }
     }
+
+    private EntyRecmaetarivalorDto mapToDto(EntyRecmaetarivalor entyRecmaetarivalor){
+
+        EntyRecmaetarivalorDto entity = new EntyRecmaetarivalorDto();
+
+        entity.setRecSecregRetp(entyRecmaetarivalor.getRecSecregRetp());
+        entity.setApjNroregAphp(entyRecmaetarivalor.getApjNroregAphp());
+        entity.setRecTipresRepe(entyRecmaetarivalor.getRecTipresRepe());
+        entity.setRecTituloRetp(entyRecmaetarivalor.getRecTituloRetp());
+        entity.setRecNotmemRetp(entyRecmaetarivalor.getRecNotmemRetp());
+        entity.setRecImage1Retp(entyRecmaetarivalor.getRecImage1Retp());
+        entity.setRecImage2Retp(entyRecmaetarivalor.getRecImage2Retp());
+        entity.setRecImage3Retp(entyRecmaetarivalor.getRecImage3Retp());
+        entity.setRecOrdvisRetp(entyRecmaetarivalor.getRecOrdvisRetp());
+        entity.setRecTipmonRetm(entyRecmaetarivalor.getRecTipmonRetm());
+        entity.setRecPrecioRetp(entyRecmaetarivalor.getRecPrecioRetp());
+        entity.setRecEstregRetp(entyRecmaetarivalor.getRecEstregRetp());
+        return  entity;
+    }
+
+    private EntyRecmaetarivalor mapToEntity(EntyRecmaetarivalorDto entyRecmaetarivalorDto){
+
+        EntyRecmaetarivalor entity = new EntyRecmaetarivalor();
+
+        entity.setRecSecregRetp(entyRecmaetarivalorDto.getRecSecregRetp());
+        entity.setApjNroregAphp(entyRecmaetarivalorDto.getApjNroregAphp());
+        entity.setRecTipresRepe(entyRecmaetarivalorDto.getRecTipresRepe());
+        entity.setRecTituloRetp(entyRecmaetarivalorDto.getRecTituloRetp());
+        entity.setRecNotmemRetp(entyRecmaetarivalorDto.getRecNotmemRetp());
+        entity.setRecImage1Retp(entyRecmaetarivalorDto.getRecImage1Retp());
+        entity.setRecImage2Retp(entyRecmaetarivalorDto.getRecImage2Retp());
+        entity.setRecImage3Retp(entyRecmaetarivalorDto.getRecImage3Retp());
+        entity.setRecOrdvisRetp(entyRecmaetarivalorDto.getRecOrdvisRetp());
+        entity.setRecTipmonRetm(entyRecmaetarivalorDto.getRecTipmonRetm());
+        entity.setRecPrecioRetp(entyRecmaetarivalorDto.getRecPrecioRetp());
+        entity.setRecEstregRetp(entyRecmaetarivalorDto.getRecEstregRetp());
+        return  entity;
+    }
+
+
+
 
 }

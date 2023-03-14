@@ -1,7 +1,7 @@
 package com.makiia.modules.bus.services;
-
 import com.makiia.crosscutting.domain.enums.ProcessName;
 import com.makiia.crosscutting.domain.enums.Status;
+import com.makiia.crosscutting.domain.model.EntyRecmaetarivalorResponse;
 import com.makiia.crosscutting.domain.model.traceability.TransactionFile;
 import com.makiia.crosscutting.exceptions.ExceptionBuilder;
 import com.makiia.crosscutting.exceptions.Main.EBusinessException;
@@ -56,6 +56,38 @@ public class UsecaseServices <T, K> {
                     .buildBusinessException();
         }
     }
+
+    /**
+     * obtiene una lista de entidades dto Response Paginacion
+     *
+     * @return List<T>
+     * @throws EBusinessException  excepcion
+     * @throws MicroEventException excepcion
+     */
+    public EntyRecmaetarivalorResponse getAll(int page , int size) throws EBusinessException, MicroEventException {
+        String transactionalId = UUID.randomUUID().toString();
+
+        try {
+            traceabilityService.createTraceabilityEventDocument(transactionalId,
+                    Status.INITIAL.getDescription(), TransactionFile.builder().build(),
+                    ProcessName.EXTERNAL.getDescription(), ProcessName.RECEPTION.getName(),
+                    ProcessName.RECEPTION.getDescription(), getAllTraceability());
+
+            return ((IjpaDataProviders<T>) ijpaDataProvider).getAll(page, size);
+        } catch (EBusinessException e) {
+            traceabilityService.createTraceabilityEventDocument(transactionalId, Status.FAIL.getDescription(),
+                    TransactionFile.builder().build(), ProcessName.EXTERNAL.getDescription(),
+                    ProcessName.RECEPTION.getName(), ProcessName.RECEPTION.getDescription(), getAllTraceability());
+
+            throw ExceptionBuilder.builder()
+                    .withMessage(e.getMessage())
+                    .withCode(e.getCode())
+                    .withParentException(e)
+                    .buildBusinessException();
+        }
+    }
+
+
 
     /**
      * genera el map que se insertará en la trazabilidad
