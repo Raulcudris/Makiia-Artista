@@ -1,6 +1,7 @@
 package com.makiia.modules.prices.dataproviders.jpa;
 import com.makiia.crosscutting.domain.model.EntyRecmaetarivalorDto;
 import com.makiia.crosscutting.domain.model.EntyRecmaetarivalorResponse;
+import com.makiia.crosscutting.domain.model.PaginationResponse;
 import com.makiia.crosscutting.exceptions.DataProvider;
 import com.makiia.crosscutting.exceptions.ExceptionBuilder;
 import com.makiia.crosscutting.exceptions.Main.EBusinessException;
@@ -71,15 +72,14 @@ public class JpaEntyRecmaetarivalorDataProviders implements IjpaEntyRecmaetariva
         try {
             Pageable pageable = PageRequest.of(page, size);
             Page<EntyRecmaetarivalor> ResponsePage = repository.findAll(pageable);
+
             List<EntyRecmaetarivalor> ListPage = ResponsePage.getContent();
+
             List<EntyRecmaetarivalorDto> content  = ListPage.stream().map(p ->mapToDto(p)).collect(Collectors.toList());
 
             EntyRecmaetarivalorResponse response = new EntyRecmaetarivalorResponse();
-            response.setCurrentPage(ResponsePage.getNumber());
-            response.setTotalPageSize(ResponsePage.getSize());
-            response.setTotalResults(ResponsePage.getTotalElements());
-            response.setTotalPages(ResponsePage.getTotalPages());
             response.setRspData(content);
+
 
             return response;
 
@@ -232,9 +232,7 @@ public class JpaEntyRecmaetarivalorDataProviders implements IjpaEntyRecmaetariva
     }
 
     private EntyRecmaetarivalorDto mapToDto(EntyRecmaetarivalor entyRecmaetarivalor){
-
         EntyRecmaetarivalorDto entity = new EntyRecmaetarivalorDto();
-
         entity.setRecSecregRetp(entyRecmaetarivalor.getRecSecregRetp());
         entity.setApjNroregAphp(entyRecmaetarivalor.getApjNroregAphp());
         entity.setRecTipresRepe(entyRecmaetarivalor.getRecTipresRepe());
@@ -250,23 +248,19 @@ public class JpaEntyRecmaetarivalorDataProviders implements IjpaEntyRecmaetariva
         return  entity;
     }
 
-    private EntyRecmaetarivalor mapToEntity(EntyRecmaetarivalorDto entyRecmaetarivalorDto){
+    private PaginationResponse mapToDto(PaginationResponse paginationResponse){
+      PaginationResponse pageResponse = new PaginationResponse();
 
-        EntyRecmaetarivalor entity = new EntyRecmaetarivalor();
-        entity.setRecSecregRetp(entyRecmaetarivalorDto.getRecSecregRetp());
-        entity.setApjNroregAphp(entyRecmaetarivalorDto.getApjNroregAphp());
-        entity.setRecTipresRepe(entyRecmaetarivalorDto.getRecTipresRepe());
-        entity.setRecTituloRetp(entyRecmaetarivalorDto.getRecTituloRetp());
-        entity.setRecNotmemRetp(entyRecmaetarivalorDto.getRecNotmemRetp());
-        entity.setRecImage1Retp(entyRecmaetarivalorDto.getRecImage1Retp());
-        entity.setRecImage2Retp(entyRecmaetarivalorDto.getRecImage2Retp());
-        entity.setRecImage3Retp(entyRecmaetarivalorDto.getRecImage3Retp());
-        entity.setRecOrdvisRetp(entyRecmaetarivalorDto.getRecOrdvisRetp());
-        entity.setRecTipmonRetm(entyRecmaetarivalorDto.getRecTipmonRetm());
-        entity.setRecPrecioRetp(entyRecmaetarivalorDto.getRecPrecioRetp());
-        entity.setRecEstregRetp(entyRecmaetarivalorDto.getRecEstregRetp());
-        return  entity;
+      pageResponse.setCurrentPage(paginationResponse.getCurrentPage());
+      pageResponse.setTotalPageSize(paginationResponse.getTotalPageSize());
+      pageResponse.setTotalResults(paginationResponse.getTotalResults());
+      pageResponse.setTotalPages(paginationResponse.getTotalPages());
+      pageResponse.setHasNextPage(pageResponse.isHasNextPage());
+      pageResponse.setHasPreviousPage(pageResponse.isHasPreviousPage());
+
+      return pageResponse;
     }
+
 
 
 
